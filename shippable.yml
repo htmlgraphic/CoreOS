@@ -1,9 +1,0 @@
-build_image: htmlgraphic/base
- 
-script: 
-  - sudo docker run --rm base echo "hello world" 
-
-notifications:
-  email:
-    on_success: change
-    on_failure: always 
