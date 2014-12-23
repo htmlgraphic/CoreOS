@@ -21,5 +21,5 @@ ExecStop=/usr/bin/docker stop ApacheLink%i
 Restart=always
 
 [X-Fleet]
-Conflicts=apache@*.service
+Conflicts=Apache@*.service
 MachineMetadata=host=coreos63
