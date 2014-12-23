@@ -4,7 +4,7 @@ OPS is a collection of CoreOS and Docker files to simplify the deployment of mul
 * [**Docker**](https://github.com/htmlgraphic/Docker) - Build scripts the creation of my different types of servers. 
     * Apache Web Server
     * Data Container
-    * Postfix Mail Server
+    * [Postfix Mail Server](https://github.com/htmlgraphic/Postfix)
     * MySQL server
 
 ## Creating a cluster
