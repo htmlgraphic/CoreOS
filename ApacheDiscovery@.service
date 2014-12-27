@@ -6,6 +6,7 @@ BindsTo=Apache@%i.service
 EnvironmentFile=/etc/environment
 ExecStart=/bin/sh -c "while true; do etcdctl set /announce/services/Apache%i ${COREOS_PUBLIC_IPV4}:80 --ttl 60; sleep 45; done"
 ExecStop=/usr/bin/etcdctl rm /announce/services/Apache%i
+Restart=always
 
 [X-Fleet]
 MachineOf=Apache@%i.service
