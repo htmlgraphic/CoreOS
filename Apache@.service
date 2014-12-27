@@ -16,7 +16,7 @@ EnvironmentFile=/etc/environment
 ExecStartPre=-/usr/bin/docker kill Apache%i
 ExecStartPre=-/usr/bin/docker rm Apache%i
 ExecStartPre=/usr/bin/docker pull htmlgraphic/apache
-ExecStart=/usr/bin/docker run -p 80:80 -p 443:443 -p 5422:22 -e IPADDR=${COREOS_PRIVATE_IPV4} --name Apache%i htmlgraphic/apache
+ExecStart=/usr/bin/docker run -p ${COREOS_PUBLIC_IPV4}:80:80 -p ${COREOS_PUBLIC_IPV4}:443:443 -p ${COREOS_PUBLIC_IPV4}:5422:22 -e IPADDR=${COREOS_PRIVATE_IPV4} --name Apache%i htmlgraphic/apache
 ExecStop=/usr/bin/docker stop Apache%i
 Restart=always
 
