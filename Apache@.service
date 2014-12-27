@@ -22,5 +22,3 @@ Restart=always
 [X-Fleet]
 Conflicts=Apache@*.service
 MachineMetadata=host=coreos53
-
-CMD echo "Etcd Version: $(curl http://${COREOS_PRIVATE_IPV4}:4001/version)"
