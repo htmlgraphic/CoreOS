@@ -8,7 +8,7 @@ EnvironmentFile=/etc/environment
 ## Test whether service is accessible and then register useful information
 ExecStart=/bin/bash -c '\
   while true; do \
-    curl -f ${COREOS_PRIVATE_IPV4}:%i; \
+    curl -f ${COREOS_PRIVATE_IPV4}:3306; \
     if [ $? -eq 0 ]; then \
       etcdctl set /services/mysql/${COREOS_PRIVATE_IPV4} \'{"host": "%H", "ipv4_addr": ${COREOS_PRIVATE_IPV4}, "port": 3306 }\' --ttl 30; \
     else \
