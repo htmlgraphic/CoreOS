@@ -8,17 +8,17 @@ EnvironmentFile=/etc/environment
 ## Test whether service is accessible and then register useful information
 ExecStart=/bin/bash -c '\
   while true; do \
-    curl -f ${COREOS_PUBLIC_IPV4}:%i; \
+    curl -f ${COREOS_PRIVATE_IPV4}:%i; \
     if [ $? -eq 0 ]; then \
-      etcdctl set /services/mysqld/${COREOS_PUBLIC_IPV4} \'{"host": "%H", "ipv4_addr": ${COREOS_PUBLIC_IPV4}, "port": 3306 }\' --ttl 30; \
+      etcdctl set /services/mysqld/${COREOS_PRIVATE_IPV4} \'{"host": "%H", "ipv4_addr": ${COREOS_PRIVATE_IPV4}, "port": 3306 }\' --ttl 30; \
     else \
-      etcdctl rm /services/mysqld/${COREOS_PUBLIC_IPV4}; \
+      etcdctl rm /services/mysqld/${COREOS_PRIVATE_IPV4}; \
     fi; \
     sleep 20; \
   done'
 
 # Stop
-ExecStop=/usr/bin/etcdctl rm /services/mysqld/${COREOS_PUBLIC_IPV4}
+ExecStop=/usr/bin/etcdctl rm /services/mysqld/${COREOS_PRIVATE_IPV4}
 
 [X-Fleet]
 MachineOf=mysqld.service
