@@ -2,7 +2,6 @@
 Description=Apache Web Server
 Requires=etcd.service
 Requires=docker.service
-Requires=mysqld.service
 
 After=etcd.service
 After=docker.service
