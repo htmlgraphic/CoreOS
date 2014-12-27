@@ -10,15 +10,15 @@ ExecStart=/bin/bash -c '\
   while true; do \
     curl -f ${COREOS_PRIVATE_IPV4}:3306; \
     if [ $? -eq 0 ]; then \
-      etcdctl set /services/mysql/${COREOS_PRIVATE_IPV4} \'{"host": "%H", "ipv4_addr": ${COREOS_PRIVATE_IPV4}, "port": 3306 }\' --ttl 30; \
+      etcdctl set /services/mysqld \'{"host": "%H", "ipv4_addr": ${COREOS_PRIVATE_IPV4}, "port": 3306 }\' --ttl 30; \
     else \
-      etcdctl rm /services/mysql/${COREOS_PRIVATE_IPV4}; \
+      etcdctl rm /services/mysqld; \
     fi; \
     sleep 20; \
   done'
 
 # Stop
-ExecStop=/usr/bin/etcdctl rm /services/mysql/${COREOS_PRIVATE_IPV4}
+ExecStop=/usr/bin/etcdctl rm /services/mysqld
 
 [X-Fleet]
 MachineOf=mysqld.service
