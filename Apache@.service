@@ -1,11 +1,13 @@
 [Unit]
-Description=Apache Web Server
+Description=Apache web server
 Requires=etcd.service
 Requires=docker.service
+Requires=ApacheDiscovery@%i.service
 
 After=etcd.service
 After=docker.service
 Before=ApacheDiscovery@%i.service
+
 
 [Service]
 TimeoutStartSec=0
@@ -13,7 +15,7 @@ KillMode=none
 EnvironmentFile=/etc/environment
 ExecStartPre=-/usr/bin/docker kill Apache%i
 ExecStartPre=-/usr/bin/docker rm Apache%i
-ExecStartPre=/usr/bin/docker pull htmlgraphic/apache:1
+ExecStartPre=/usr/bin/docker pull htmlgraphic/apache
 ExecStart=/usr/bin/docker run -p ${COREOS_PUBLIC_IPV4}:80:80 -p ${COREOS_PUBLIC_IPV4}:443:443 -p ${COREOS_PUBLIC_IPV4}:5422:22 --name Apache%i -e IPADDR=${COREOS_PRIVATE_IPV4} htmlgraphic/apache
 ExecStop=/usr/bin/docker stop Apache%i
 Restart=always
