@@ -1,5 +1,5 @@
 [Unit]
-Description=Apache web server
+Description=Apache web service
 Requires=etcd.service
 Requires=docker.service
 Requires=ApacheDiscovery@%i.service
