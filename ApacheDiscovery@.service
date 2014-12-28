@@ -18,7 +18,7 @@ EnvironmentFile=/etc/environment
 ## Test whether service is accessible and then register useful information
 ExecStart=/bin/bash -c '\
   while true; do \
-    curl -f ${COREOS_PUBLIC_IPV4}:25; \
+    curl -f ${COREOS_PUBLIC_IPV4}:80; \
     if [ $? -eq 0 ]; then \
       etcdctl set /services/apache/${COREOS_PUBLIC_IPV4} \'{"host": "%H", "ipv4_addr": ${COREOS_PUBLIC_IPV4}, "port": 80}\' --ttl 30; \
     else \
