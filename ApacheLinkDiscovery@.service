@@ -1,12 +1,34 @@
 [Unit]
-Description=Announce Apache@%i Discovery Service
+Description=Announce ApacheLink@%i discovery service
+
+Requires=etcd.service
+Requires=ApacheLink@%i.service
+
+After=etcd.service
+After=ApacheLink@%i.service
 BindsTo=ApacheLink@%i.service
 
+
 [Service]
+
+# Get CoreOS environmental variables
 EnvironmentFile=/etc/environment
-ExecStart=/bin/sh -c "while true; do etcdctl set /announce/services/ApacheLink%i ${COREOS_PUBLIC_IPV4}:80 --ttl 60; sleep 45; done"
-ExecStop=/usr/bin/etcdctl rm /announce/services/ApacheLink%i
-Restart=always
+
+# Start
+## Test whether service is accessible and then register useful information
+ExecStart=/bin/bash -c '\
+  while true; do \
+    curl -f ${COREOS_PUBLIC_IPV4}:25; \
+    if [ $? -eq 0 ]; then \
+      etcdctl set /services/apachelink/${COREOS_PUBLIC_IPV4} \'{"host": "%H", "ipv4_addr": ${COREOS_PUBLIC_IPV4}, "port": 80}\' --ttl 30; \
+    else \
+      etcdctl rm /services/apachelink/${COREOS_PUBLIC_IPV4}; \
+    fi; \
+    sleep 20; \
+  done'
+
+# Stop
+ExecStop=/usr/bin/etcdctl rm /services/apachelink/${COREOS_PUBLIC_IPV4}
 
 [X-Fleet]
 MachineOf=ApacheLink@%i.service
