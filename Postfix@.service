@@ -1,5 +1,6 @@
 [Unit]
 Description=Postfix mail service
+
 Requires=etcd.service
 Requires=docker.service
 Requires=PostfixDiscovery@%i.service
@@ -15,7 +16,7 @@ KillMode=none
 EnvironmentFile=/etc/environment
 ExecStartPre=-/usr/bin/docker kill Postfix%i
 ExecStartPre=-/usr/bin/docker rm Postfix%i
-ExecStartPre=/usr/bin/docker pull htmlgraphic/postfix:1.1
+ExecStartPre=/usr/bin/docker pull htmlgraphic/postfix
 ExecStart=/usr/bin/docker run -p ${COREOS_PUBLIC_IPV4}:25:25 --name Postfix%i -e USER=x -e PASS=x -e HOSTNAME=post-office.htmlgraphic.com htmlgraphic/postfix
 ExecStop=/usr/bin/docker stop Postfix%i
 Restart=always
