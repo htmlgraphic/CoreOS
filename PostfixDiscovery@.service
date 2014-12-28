@@ -2,7 +2,6 @@
 Description=Announce Postfix@%i discovery service
 
 Requires=etcd.service
-Requires=Postfix@%i.service
 
 After=etcd.service
 After=Postfix@%i.service

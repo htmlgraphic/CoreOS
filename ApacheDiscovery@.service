@@ -2,7 +2,6 @@
 Description=Announce Apache@%i discovery service
 
 Requires=etcd.service
-Requires=Apache@%i.service
 
 After=etcd.service
 After=Apache@%i.service
