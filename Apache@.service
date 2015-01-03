@@ -16,7 +16,7 @@ KillMode=none
 EnvironmentFile=/etc/environment
 ExecStartPre=-/usr/bin/docker kill Apache.%i
 ExecStartPre=-/usr/bin/docker rm Apache.%i
-ExecStartPre=/usr/bin/docker pull htmlgraphic/apache
+ExecStartPre=/usr/bin/docker pull htmlgraphic/apache:latest
 ExecStart=/usr/bin/docker run -p ${COREOS_PUBLIC_IPV4}:80:80 -p ${COREOS_PUBLIC_IPV4}:443:443 -p ${COREOS_PUBLIC_IPV4}:5422:22 --volumes-from www-data --name Apache.%i -e IPADDR=${COREOS_PRIVATE_IPV4} htmlgraphic/apache
 ExecStop=/usr/bin/docker stop Apache.%i
 Restart=always
