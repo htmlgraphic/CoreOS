@@ -12,9 +12,9 @@ KillMode=none
 EnvironmentFile=/etc/environment
 ExecStartPre=-/usr/bin/docker kill mysqld
 ExecStartPre=-/usr/bin/docker rm mysqld
-ExecStartPre=/usr/bin/docker pull htmlgraphic/mysqld
+ExecStartPre=/usr/bin/docker pull htmlgraphic/mysqld:latest
 # /var/lib/mysql is linked to stateless data container, currently can't --volumes-from across cluster via fleet.
-ExecStart=/usr/bin/docker run -p ${COREOS_PRIVATE_IPV4}:3306:3306 --volumes-from db-data --name mysqld htmlgraphic/mysqld
+ExecStart=/usr/bin/docker run -p ${COREOS_PRIVATE_IPV4}:3306:3306 --volumes-from db-data --name mysqld htmlgraphic/mysqld:latest
 ExecStop=/usr/bin/docker stop mysqld
 Restart=always
 
