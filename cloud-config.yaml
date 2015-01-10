@@ -1,9 +1,8 @@
 #cloud-config
-
 coreos:
   etcd:
     # generate a new token for each unique cluster from https://discovery.etcd.io/new
-    discovery: https://discovery.etcd.io/5d1dffbbac923b1da664eed1f2255fd7
+    discovery: https://discovery.etcd.io/$(TOKEN)
     # multi-region deployments, multi-cloud deployments, and droplets without
     # private networking need to use $public_ipv4
     addr: $private_ipv4:4001
