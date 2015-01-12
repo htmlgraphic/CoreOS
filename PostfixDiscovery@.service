@@ -18,17 +18,17 @@ EnvironmentFile=/etc/environment
 ## Test whether service is accessible and then register useful information
 ExecStart=/bin/bash -c '\
   while true; do \
-    curl -f ${COREOS_PUBLIC_IPV4}:25; \
+    curl -f ${COREOS_PRIVATE_IPV4}:25; \
     if [ $? -eq 0 ]; then \
-      etcdctl set /services/postfix/${COREOS_PUBLIC_IPV4} \'{"host": "%H", "ipv4_addr": ${COREOS_PUBLIC_IPV4}, "port": 25}\' --ttl 30; \
+      etcdctl set /services/postfix/${COREOS_PRIVATE_IPV4} \'{"host": "%H", "ipv4_addr": ${COREOS_PRIVATE_IPV4}, "port": 25}\' --ttl 30; \
     else \
-      etcdctl rm /services/postfix/${COREOS_PUBLIC_IPV4}; \
+      etcdctl rm /services/postfix/${COREOS_PRIVATE_IPV4}; \
     fi; \
     sleep 20; \
   done'
 
 # Stop
-ExecStop=/usr/bin/etcdctl rm /services/postfix/${COREOS_PUBLIC_IPV4}
+ExecStop=/usr/bin/etcdctl rm /services/postfix/${COREOS_PRIVATE_IPV4}
 
 [X-Fleet]
 MachineOf=Postfix@%i.service
