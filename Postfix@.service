@@ -16,11 +16,18 @@ KillMode=none
 EnvironmentFile=/etc/environment
 ExecStartPre=-/usr/bin/docker kill Postfix.%i
 ExecStartPre=-/usr/bin/docker rm Postfix.%i
-ExecStartPre=/usr/bin/docker pull htmlgraphic/postfix:latest
-ExecStart=/usr/bin/docker run -p ${COREOS_PUBLIC_IPV4}:25:25 --name Postfix.%i -e USER=x -e PASS=x -e HOSTNAME=post-office.htmlgraphic.com htmlgraphic/postfix:latest
+ExecStartPre=/usr/bin/docker pull htmlgraphic/postfix
+ExecStart=/usr/bin/docker run -p 25:25 \
+-e USER=`etcdctl get /service/mail-loopback/postfix_user` \
+-e PASS=`etcdctl get /service/mail-loopback/postfix_pass` \
+-e LOG_TOKEN=`etcdctl get /service/mail-loopback/%H/logentriestoken` \
+-e HOSTNAME=post-office.htmlgraphic.com --name Postfix.%i \
+htmlgraphic/postfix
 ExecStop=/usr/bin/docker stop Postfix.%i
 Restart=always
 
 [X-Fleet]
 Conflicts=Postfix@*.service
-MachineMetadata=size=512mb
+MachineMetadata=host=coreos56
+MachineMetadata=host=coreos55
+MachineMetadata=host=coreos53
