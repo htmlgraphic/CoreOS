@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Create a new node on Digital Ocean
+# By Jason Gegere <jason@htmlgraphic.com>
+
 function quit {
    exit
 }
