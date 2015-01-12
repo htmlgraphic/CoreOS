@@ -6,23 +6,32 @@ OPS is a collection of CoreOS and Docker files to simplify the deployment of mul
     * Data Container
     * [Postfix Mail Server](https://github.com/htmlgraphic/Postfix)
     * MySQL server
+    * [OpenVPN Server](https://github.com/htmlgraphic/OpenVPN-Server)
+
+##Quick Start
+```bash
+    $ git clone git@github.com:htmlgraphic/CoreOS.git && cd CoreOS
+    $ make
+    $ make token
+    $ make node
+```
 
 ## Creating a cluster
-Creating nodes for the CoreOS cluster is as simple as running the `CoreOS/create_node.sh` script.
-* Before running the script, be sure to set the DO_TOKEN environment variable and the SSH key ID in the script as well as the discovery ID in `cloud-config.yml`. 
-**Example:** `export DO_TOKEN=xyzabc123`
-* New discovery URLs can be generated at https://discovery.etcd.io/new.
-* Be sure not to change anything in between each time you run `create_node.sh`
+Creating nodes for the CoreOS cluster is as simple as typing the `make node`.
+* Before running the make process, set the (Digital Ocean Key - Read & Write) **DO_TOKEN** environment variable and the **SSH key ID** (ssh_keys) in the script `create_node_var.sh`. 
+
+    **Example:** `export DO_TOKEN=xyzabc123` add this to either your ~/.zshrc OR ~/.bashrc file to create when the terminal is launched.
+* New discovery URLs can be generated at https://discovery.etcd.io/new This process will be handled for you via the creation process if you have an existing cluster simply add the etcd token to `.discovery-token`.
 
 * Current variables set during box creation:
     * name - what is the droplet called? A valid domain name is possible as Digital Ocean will add a reverse DNS lookup
     * backup - boolean, Enable automated backups - [more info](https://www.digitalocean.com/community/tutorials/digitalocean-backups-and-snapshots-explained)
     * region - where should this droplet be created
-    * size - 512mb, 1gb, 2gb - Issue a CURL request to understand your size options - [more info](https://developers.digitalocean.com/#list-all-sizes)
+    * size - 512mb, 1gb, 2gb - issue a CURL request to understand your size options - [more info](https://developers.digitalocean.com/#list-all-sizes)
     * private_networking - boolean
-    * image - What version of CoreOS: **coreos-stable** **coreos-beta** **coreos-alpha**
-    * user_data - this is where the cloud config comes into play
-    * ssh_keys - CoreOS only uses a key for login. You will need to add one to your DO account - [more info](https://developers.digitalocean.com/#ssh-keys) 
+    * image - what version of CoreOS: **coreos-stable** **coreos-beta** **coreos-alpha**
+    * user_data - this is where the `cloud-config.yaml` comes into play
+    * ssh_keys - CoreOS **only** uses a key for login and the username is **core**. You will need to add one to your DO account - [more info](https://developers.digitalocean.com/#ssh-keys) 
 
 ## Accessing the cluster
 You may now verify that the cluster has clustered by SSHing into a node.
