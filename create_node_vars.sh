@@ -22,8 +22,8 @@ function create_node {
 
 VARS=$(cat <<EOF
 {
-    "name": "coreos66",
-    "backups" : true,
+    "name": "coreos71",
+    "backups" : false,
     "region" : "nyc3",
     "size" : "512mb",
     "private_networking" : true,
