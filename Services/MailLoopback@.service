@@ -1,0 +1,29 @@
+[Unit]
+Description=Mail loopback service
+ 
+Requires=etcd.service
+Requires=docker.service
+Requires=MailLoopbackDiscovery@%i.service
+ 
+After=etcd.service
+After=docker.service
+Before=MailLoopbackDiscovery@%i.service
+ 
+ 
+[Service]
+TimeoutStartSec=0
+KillMode=none
+EnvironmentFile=/etc/environment
+ExecStartPre=-/usr/bin/docker kill MailLoopback.%i
+ExecStartPre=-/usr/bin/docker rm MailLoopback.%i
+ExecStartPre=/usr/bin/docker pull htmlgraphic/mail-loopback:3.0
+ExecStart=/usr/bin/bash -c "/usr/bin/docker run --volumes-from mail-loopback-base \
+--env LOG_TOKEN=`/usr/bin/etcdctl get /service/mail/loopback/%H/logentriestoken` \
+--name MailLoopback.%i -p 2525:2525 \
+htmlgraphic/mail-loopback:3.0"
+ExecStop=/usr/bin/docker stop MailLoopback.%i
+Restart=always
+ 
+[X-Fleet]
+Conflicts=MailLoopback@*.service
+MachineMetadata=host=coreos72
