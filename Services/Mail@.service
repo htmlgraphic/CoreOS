@@ -1,0 +1,29 @@
+[Unit]
+Description=Mail service
+ 
+Requires=etcd.service
+Requires=docker.service
+Requires=MailDiscovery@%i.service
+ 
+After=etcd.service
+After=docker.service
+Before=MailDiscovery@%i.service
+ 
+ 
+[Service]
+TimeoutStartSec=0
+KillMode=none
+EnvironmentFile=/etc/environment
+ExecStartPre=-/usr/bin/docker kill Mail.%i
+ExecStartPre=-/usr/bin/docker rm Mail.%i
+ExecStartPre=/usr/bin/docker pull htmlgraphic/imap-server:2.1.8
+ExecStart=/usr/bin/bash -c "/usr/bin/docker run --volumes-from mailvol --volumes-from mailbase \
+--env LOG_TOKEN=`/usr/bin/etcdctl get /service/mail/%H/logentriestoken` \
+--name Mail.%i -p 25:25 -p 587:587 -p 143:143 \
+htmlgraphic/imap-server:2.1.8"
+ExecStop=/usr/bin/docker stop Mail.%i
+Restart=always
+ 
+[X-Fleet]
+Conflicts=Mail@*.service
+MachineMetadata=host=coreos72
