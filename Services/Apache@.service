@@ -16,7 +16,7 @@ KillMode=none
 EnvironmentFile=/etc/environment
 ExecStartPre=-/usr/bin/docker kill Apache.%i
 ExecStartPre=-/usr/bin/docker rm Apache.%i
-ExecStartPre=/usr/bin/docker pull htmlgraphic/apache:1.1.0
+ExecStartPre=/usr/bin/docker pull htmlgraphic/apache:1.2.1
 
 ExecStart=/usr/bin/bash -c "/usr/bin/docker run -p ${COREOS_PUBLIC_IPV4}:80:80 \
 -p ${COREOS_PUBLIC_IPV4}:443:443 --volumes-from www-data --name Apache.%i \
@@ -24,7 +24,7 @@ ExecStart=/usr/bin/bash -c "/usr/bin/docker run -p ${COREOS_PUBLIC_IPV4}:80:80 \
 -e PASS=`/usr/bin/etcdctl get /service/mail/postfix_pass` \
 -e MYSQLD=`/usr/bin/etcdctl get /services/mysqld` \
 -e IPADDR=${COREOS_PRIVATE_IPV4} \
-htmlgraphic/apache:1.1.0"
+htmlgraphic/apache:1.2.1"
 
 ExecStop=/usr/bin/docker stop Apache.%i
 Restart=always
