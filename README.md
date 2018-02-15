@@ -8,7 +8,7 @@ OPS is a collection of CoreOS and Docker files to simplify the deployment of mul
     * MySQL server
     * [OpenVPN Server](https://github.com/htmlgraphic/OpenVPN-Server)
 
-##Quick Start
+## Quick Start
 ```bash
     $ git clone git@github.com:htmlgraphic/CoreOS.git && cd CoreOS
     $ make
